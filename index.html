@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Inside™ — The trust mark for intelligent products.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=JetBrains+Mono:wght@300;400;500;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F2EDE3;
+    --paper: #EAE3D3;
+    --ink: #0A0A0A;
+    --ink-2: #2A2A2A;
+    --ink-muted: #6B6760;
+    --line: rgba(10, 10, 10, 0.14);
+    --line-soft: rgba(10, 10, 10, 0.07);
+    --signal: #FF4D1A;
+    --signal-soft: #FFE0D2;
+    --signal-deep: #C73611;
+
+    --font-display: 'Fraunces', 'Times New Roman', serif;
+    --font-body: 'Manrope', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-weight: 400;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Grain texture overlay */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* ─────────── TICKER ─────────── */
+  .ticker {
+    border-bottom: 1px solid var(--line);
+    background: var(--cream);
+    overflow: hidden;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    position: relative;
+    z-index: 10;
+  }
+  .ticker-track {
+    display: flex;
+    gap: 3rem;
+    padding: 10px 0;
+    white-space: nowrap;
+    animation: scroll 60s linear infinite;
+    width: max-content;
+  }
+  .ticker span { display: inline-flex; align-items: center; gap: 0.6rem; }
+  .ticker .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--signal); }
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ─────────── NAV ─────────── */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 48px;
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    background: rgba(242, 237, 227, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 100;
+  }
+  .logo {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo-mark {
+    width: 26px; height: 26px;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+  .logo-mark::after {
+    content: "AI";
+  }
+  nav ul {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  nav a {
+    color: var(--ink-2);
+    text-decoration: none;
+    transition: color 0.2s;
+    position: relative;
+  }
+  nav a:hover { color: var(--signal); }
+  .nav-cta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 10px 18px;
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--signal); }
+
+  /* ─────────── HERO ─────────── */
+  .hero {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 60px;
+    padding: 80px 48px 120px;
+    border-bottom: 1px solid var(--line);
+    align-items: center;
+    position: relative;
+    min-height: calc(100vh - 100px);
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size: 80px 80px;
+    pointer-events: none;
+    opacity: 0.6;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+  .hero > * { position: relative; z-index: 1; }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 36px;
+    opacity: 0;
+    animation: rise 0.9s ease-out 0.1s forwards;
+  }
+  .eyebrow .line {
+    width: 40px;
+    height: 1px;
+    background: var(--ink-2);
+  }
+  .eyebrow .signal-dot {
+    width: 8px; height: 8px;
+    background: var(--signal);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 350;
+    font-size: clamp(48px, 7.5vw, 112px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    font-variation-settings: "SOFT" 30, "WONK" 0, "opsz" 144;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: rise 1.1s ease-out 0.25s forwards;
+  }
+  h1 em {
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
+    color: var(--signal);
+  }
+  h1 .stroke {
+    display: inline-block;
+    position: relative;
+  }
+  h1 .stroke::after {
+    content: "";
+    position: absolute;
+    left: -2%;
+    right: -2%;
+    bottom: 8%;
+    height: 0.5em;
+    background: var(--signal-soft);
+    z-index: -1;
+    transform: skew(-3deg);
+  }
+
+  .hero-sub {
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 540px;
+    margin-bottom: 44px;
+    font-weight: 400;
+    opacity: 0;
+    animation: rise 1.1s ease-out 0.45s forwards;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: rise 1.1s ease-out 0.6s forwards;
+  }
+  .btn {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 16px 26px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .btn-primary:hover {
+    background: var(--signal);
+    transform: translate(2px, -2px);
+    box-shadow: -4px 4px 0 var(--ink);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+  }
+  .btn-secondary:hover {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .btn .arrow {
+    transition: transform 0.2s;
+    display: inline-block;
+  }
+  .btn:hover .arrow { transform: translateX(3px); }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─────────── SEAL ─────────── */
+  .seal-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    opacity: 0;
+    animation: rise 1.4s ease-out 0.5s forwards;
+  }
+  .seal {
+    width: 100%;
+    max-width: 480px;
+    aspect-ratio: 1;
+    position: relative;
+  }
+  .seal-ring {
+    animation: rotate 60s linear infinite;
+    transform-origin: center;
+  }
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .seal-ring-reverse {
+    animation: rotate 80s linear infinite reverse;
+    transform-origin: center;
+  }
+  .seal-center text {
+    font-family: var(--font-display);
+    font-weight: 400;
+  }
+  .seal-stat {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--ink-muted);
+  }
+  .seal-chip {
+    animation: chip-pulse 3s ease-in-out infinite;
+    transform-origin: center;
+  }
+  @keyframes chip-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.55; }
+  }
+
+  /* Floating spec labels around seal */
+  .seal-spec {
+    position: absolute;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .seal-spec::before {
+    content: "";
+    width: 24px;
+    height: 1px;
+    background: var(--ink-muted);
+  }
+  .seal-spec.tl { top: 8%; left: -8%; }
+  .seal-spec.tr { top: 18%; right: -10%; flex-direction: row-reverse; }
+  .seal-spec.tr::before { display: none; }
+  .seal-spec.tr::after { content: ""; width: 24px; height: 1px; background: var(--ink-muted); }
+  .seal-spec.bl { bottom: 12%; left: -6%; }
+  .seal-spec.br { bottom: 22%; right: -8%; flex-direction: row-reverse; }
+  .seal-spec.br::before { display: none; }
+  .seal-spec.br::after { content: ""; width: 24px; height: 1px; background: var(--ink-muted); }
+
+  /* ─────────── MANIFESTO ─────────── */
+  .manifesto {
+    padding: 140px 48px;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+    position: relative;
+  }
+  .manifesto-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 2.4fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before {
+    content: "§";
+    color: var(--signal);
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-style: italic;
+  }
+  .manifesto-text {
+    font-family: var(--font-display);
+    font-weight: 350;
+    font-size: clamp(28px, 3vw, 42px);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    font-variation-settings: "SOFT" 50, "opsz" 100;
+  }
+  .manifesto-text em {
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 100;
+    color: var(--signal);
+  }
+  .manifesto-text .underline {
+    background: linear-gradient(to top, var(--signal-soft) 35%, transparent 35%);
+    padding: 0 4px;
+  }
+
+  /* ─────────── INITIATIVES ─────────── */
+  .initiatives {
+    padding: 120px 48px 80px;
+    border-bottom: 1px solid var(--line);
+  }
+  .init-header {
+    max-width: 1100px;
+    margin: 0 auto 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .init-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 5vw, 72px);
+    font-weight: 350;
+    line-height: 1;
+    letter-spacing: -0.025em;
+    font-variation-settings: "SOFT" 30, "opsz" 144;
+    max-width: 700px;
+  }
+  .init-header h2 em {
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
+  }
+  .init-meta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: right;
+  }
+  .init-meta .count {
+    font-family: var(--font-display);
+    font-size: 56px;
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1;
+    display: block;
+    margin-bottom: 6px;
+    font-variation-settings: "SOFT" 100, "WONK" 1;
+  }
+
+  .init-list {
+    max-width: 1200px;
+    margin: 0 auto;
+    border-top: 1px solid var(--ink);
+  }
+  .init-row {
+    display: grid;
+    grid-template-columns: 80px 80px 1fr 1.4fr 140px;
+    gap: 32px;
+    padding: 36px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+    cursor: pointer;
+    transition: padding 0.35s ease, background 0.35s ease;
+    position: relative;
+  }
+  .init-row:hover {
+    padding-left: 20px;
+    padding-right: 20px;
+    background: var(--paper);
+  }
+  .init-row::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: var(--signal);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.35s ease;
+  }
+  .init-row:hover::before { transform: scaleY(1); }
+
+  .init-num {
+    font-family: var(--font-display);
+    font-size: 48px;
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 0.9;
+    font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
+  }
+  .init-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    padding-top: 14px;
+  }
+  .init-title {
+    font-family: var(--font-display);
+    font-size: 28px;
+    line-height: 1.1;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    font-variation-settings: "SOFT" 50, "opsz" 144;
+  }
+  .init-title em {
+    font-style: italic;
+    color: var(--signal);
+    font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
+  }
+  .init-desc {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    padding-top: 6px;
+  }
+  .init-status {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    padding-top: 12px;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-end;
+  }
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border: 1px solid var(--line);
+    border-radius: 100px;
+  }
+  .status-pill .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+  }
+  .status-pill.upcoming .dot { background: var(--signal); animation: pulse 2s infinite; }
+  .status-pill.planning .dot { background: var(--ink-muted); }
+  .status-pill.q3 .dot { background: #D4A300; }
+
+  /* ─────────── PRINCIPLES ─────────── */
+  .principles {
+    padding: 140px 48px;
+    border-bottom: 1px solid var(--line);
+    background: var(--ink);
+    color: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+  .principles::before {
+    content: "AI · INSIDE · CERTIFIED ·";
+    position: absolute;
+    top: 30%;
+    left: -5%;
+    font-family: var(--font-display);
+    font-size: 280px;
+    font-weight: 300;
+    opacity: 0.04;
+    white-space: nowrap;
+    font-variation-settings: "SOFT" 100, "WONK" 1;
+    pointer-events: none;
+    letter-spacing: -0.04em;
+  }
+  .principles-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .principles-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 80px;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .principles h2 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 4.5vw, 64px);
+    font-weight: 350;
+    line-height: 1;
+    letter-spacing: -0.025em;
+    max-width: 600px;
+    font-variation-settings: "SOFT" 30, "opsz" 144;
+  }
+  .principles h2 em {
+    font-style: italic;
+    color: var(--signal);
+    font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
+  }
+  .section-label.light { color: rgba(242, 237, 227, 0.6); }
+  .section-label.light::before { color: var(--signal); }
+
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+  }
+  .principle {
+    border-top: 1px solid rgba(242, 237, 227, 0.2);
+    padding-top: 24px;
+  }
+  .principle-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--signal);
+    letter-spacing: 0.1em;
+    margin-bottom: 18px;
+  }
+  .principle h3 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 14px;
+    font-variation-settings: "SOFT" 50, "opsz" 100;
+  }
+  .principle h3 em {
+    font-style: italic;
+    color: var(--signal);
+    font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 100;
+  }
+  .principle p {
+    font-size: 14px;
+    line-height: 1.55;
+    color: rgba(242, 237, 227, 0.7);
+  }
+
+  /* ─────────── WAITLIST ─────────── */
+  .waitlist {
+    padding: 140px 48px;
+    text-align: center;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .waitlist-inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .waitlist .section-label {
+    justify-content: center;
+    margin-bottom: 28px;
+  }
+  .waitlist h2 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 6vw, 88px);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.025em;
+    margin-bottom: 28px;
+    font-variation-settings: "SOFT" 30, "opsz" 144;
+  }
+  .waitlist h2 em {
+    font-style: italic;
+    color: var(--signal);
+    font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
+  }
+  .waitlist p {
+    font-size: 18px;
+    color: var(--ink-2);
+    margin-bottom: 44px;
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .form-row {
+    display: flex;
+    gap: 0;
+    max-width: 520px;
+    margin: 0 auto;
+    border: 1px solid var(--ink);
+    background: var(--cream);
+  }
+  .form-row input {
+    flex: 1;
+    padding: 18px 22px;
+    border: none;
+    background: transparent;
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--ink);
+    outline: none;
+  }
+  .form-row input::placeholder { color: var(--ink-muted); }
+  .form-row button {
+    padding: 18px 26px;
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .form-row button:hover { background: var(--signal); }
+  .form-note {
+    margin-top: 20px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ─────────── FOOTER ─────────── */
+  footer {
+    padding: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  footer .footer-links { display: flex; gap: 32px; }
+  footer a { color: var(--ink-muted); text-decoration: none; transition: color 0.2s; }
+  footer a:hover { color: var(--signal); }
+
+  /* ─────────── RESPONSIVE ─────────── */
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    nav ul { display: none; }
+    .hero {
+      grid-template-columns: 1fr;
+      padding: 60px 24px 80px;
+      gap: 60px;
+    }
+    .seal { max-width: 320px; }
+    .manifesto, .initiatives, .principles, .waitlist { padding-left: 24px; padding-right: 24px; }
+    .manifesto-inner { grid-template-columns: 1fr; gap: 32px; }
+    .init-row {
+      grid-template-columns: 60px 1fr;
+      grid-template-areas:
+        "num tag"
+        "num title"
+        ". desc"
+        ". status";
+      gap: 12px;
+    }
+    .init-num { grid-area: num; font-size: 36px; }
+    .init-tag { grid-area: tag; padding-top: 6px; }
+    .init-title { grid-area: title; font-size: 22px; }
+    .init-desc { grid-area: desc; }
+    .init-status { grid-area: status; text-align: left; align-items: flex-start; padding-top: 8px; }
+    .principles-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .seal-spec { display: none; }
+  }
+  @media (max-width: 560px) {
+    .principles-grid { grid-template-columns: 1fr; }
+    .form-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─────────── TICKER ─────────── -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span><span class="dot"></span>Registry est. 2026</span>
+    <span>The trust mark for intelligent products</span>
+    <span><span class="dot"></span>Now accepting founding partners</span>
+    <span>Melbourne · Sydney · Worldwide</span>
+    <span><span class="dot"></span>Seven initiatives in development</span>
+    <span>AI Inside™ — certified intelligence</span>
+    <span><span class="dot"></span>Registry est. 2026</span>
+    <span>The trust mark for intelligent products</span>
+    <span><span class="dot"></span>Now accepting founding partners</span>
+    <span>Melbourne · Sydney · Worldwide</span>
+    <span><span class="dot"></span>Seven initiatives in development</span>
+    <span>AI Inside™ — certified intelligence</span>
+  </div>
+</div>
+
+<!-- ─────────── NAV ─────────── -->
+<nav>
+  <div class="logo">
+    <span class="logo-mark"></span>
+    AI INSIDE<sup style="font-size:8px;">™</sup>
+  </div>
+  <ul>
+    <li><a href="#manifesto">Manifesto</a></li>
+    <li><a href="#initiatives">Initiatives</a></li>
+    <li><a href="#principles">Principles</a></li>
+    <li><a href="#join">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('join').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
+</nav>
+
+<!-- ─────────── HERO ─────────── -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="eyebrow">
+      <span class="signal-dot"></span>
+      <span>The Registry · Est. 2026</span>
+      <span class="line"></span>
+      <span>Melbourne, AU</span>
+    </div>
+
+    <h1>
+      The <span class="stroke">mark</span> of<br>
+      <em>trusted</em> intelligence.
+    </h1>
+
+    <p class="hero-sub">
+      AI Inside™ is the certification, infrastructure, and registry for the next era of intelligent products — from the chip to the checkout, from the dashboard to the doorbell. If artificial intelligence powers it, we verify it.
+    </p>
+
+    <div class="hero-cta">
+      <a href="#initiatives" class="btn btn-primary">
+        Explore Initiatives <span class="arrow">→</span>
+      </a>
+      <a href="#join" class="btn btn-secondary">
+        Join the Registry <span class="arrow">↗</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="seal-wrap">
+    <div class="seal-spec tl">Model · Verified</div>
+    <div class="seal-spec tr">Provenance · Logged</div>
+    <div class="seal-spec bl">Safety · Audited</div>
+    <div class="seal-spec br">Transparency · Public</div>
+
+    <svg class="seal" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <!-- Outer ring -->
+      <g class="seal-ring">
+        <defs>
+          <path id="outerCircle" d="M 200,200 m -180,0 a 180,180 0 1,1 360,0 a 180,180 0 1,1 -360,0" />
+        </defs>
+        <text font-family="JetBrains Mono" font-size="13" letter-spacing="6" fill="#0A0A0A">
+          <textPath href="#outerCircle">
+            AI · INSIDE · CERTIFIED · 2026 · AI · INSIDE · CERTIFIED · 2026 · AI · INSIDE · CERTIFIED · 2026 ·
+          </textPath>
+        </text>
+      </g>
+
+      <!-- Decorative rings -->
+      <circle cx="200" cy="200" r="165" fill="none" stroke="#0A0A0A" stroke-width="0.6" />
+      <circle cx="200" cy="200" r="150" fill="none" stroke="#0A0A0A" stroke-width="1.5" />
+      <circle cx="200" cy="200" r="142" fill="none" stroke="#0A0A0A" stroke-width="0.4" />
+
+      <!-- Inner reverse ring -->
+      <g class="seal-ring-reverse">
+        <defs>
+          <path id="innerCircle" d="M 200,200 m -125,0 a 125,125 0 1,1 250,0 a 125,125 0 1,1 -250,0" />
+        </defs>
+        <text font-family="JetBrains Mono" font-size="9" letter-spacing="3" fill="#6B6760">
+          <textPath href="#innerCircle">
+            REGISTRY · 0001 · TRUST · PROVENANCE · SAFETY · TRANSPARENCY · REGISTRY · 0001 · TRUST · PROVENANCE ·
+          </textPath>
+        </text>
+      </g>
+
+      <!-- Center chip -->
+      <g class="seal-chip">
+        <!-- Chip body -->
+        <rect x="140" y="140" width="120" height="120" fill="none" stroke="#0A0A0A" stroke-width="2" rx="2" />
+        <rect x="155" y="155" width="90" height="90" fill="#FF4D1A" opacity="0.08" />
+        <rect x="155" y="155" width="90" height="90" fill="none" stroke="#0A0A0A" stroke-width="0.6" />
+
+        <!-- Chip pins -->
+        <g stroke="#0A0A0A" stroke-width="1.5">
+          <!-- top pins -->
+          <line x1="160" y1="140" x2="160" y2="128"/><line x1="180" y1="140" x2="180" y2="128"/>
+          <line x1="200" y1="140" x2="200" y2="128"/><line x1="220" y1="140" x2="220" y2="128"/>
+          <line x1="240" y1="140" x2="240" y2="128"/>
+          <!-- bottom pins -->
+          <line x1="160" y1="260" x2="160" y2="272"/><line x1="180" y1="260" x2="180" y2="272"/>
+          <line x1="200" y1="260" x2="200" y2="272"/><line x1="220" y1="260" x2="220" y2="272"/>
+          <line x1="240" y1="260" x2="240" y2="272"/>
+          <!-- left pins -->
+          <line x1="140" y1="160" x2="128" y2="160"/><line x1="140" y1="180" x2="128" y2="180"/>
+          <line x1="140" y1="200" x2="128" y2="200"/><line x1="140" y1="220" x2="128" y2="220"/>
+          <line x1="140" y1="240" x2="128" y2="240"/>
+          <!-- right pins -->
+          <line x1="260" y1="160" x2="272" y2="160"/><line x1="260" y1="180" x2="272" y2="180"/>
+          <line x1="260" y1="200" x2="272" y2="200"/><line x1="260" y1="220" x2="272" y2="220"/>
+          <line x1="260" y1="240" x2="272" y2="240"/>
+        </g>
+
+        <!-- AI text in center -->
+        <text x="200" y="195" text-anchor="middle" font-family="Fraunces" font-size="34" font-style="italic" fill="#0A0A0A" font-weight="400">AI</text>
+        <text x="200" y="222" text-anchor="middle" font-family="JetBrains Mono" font-size="9" letter-spacing="2" fill="#0A0A0A">INSIDE</text>
+
+        <!-- Corner notches -->
+        <circle cx="155" cy="155" r="2" fill="#FF4D1A"/>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- ─────────── MANIFESTO ─────────── -->
+<section class="manifesto" id="manifesto">
+  <div class="manifesto-inner">
+    <div class="section-label">Manifesto / 001</div>
+    <div class="manifesto-text">
+      Every product is becoming an <em>intelligent</em> product. But intelligence without provenance is just <span class="underline">noise dressed as authority</span>. <br><br>
+      We built our trust in chips because a sticker told us what was inside. The age of AI deserves the <em>same clarity</em> — and a higher standard.
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── INITIATIVES ─────────── -->
+<section class="initiatives" id="initiatives">
+  <div class="init-header">
+    <h2>Seven initiatives, <em>one registry.</em></h2>
+    <div class="init-meta">
+      <span class="count">07</span>
+      Verticals · In Development
+    </div>
+  </div>
+
+  <div class="init-list">
+
+    <a class="init-row" href="#join">
+      <div class="init-num">01</div>
+      <div class="init-tag">Certification</div>
+      <div class="init-title">The <em>Trust Mark.</em></div>
+      <div class="init-desc">An independent certification program for AI-powered products. Verify model quality, training data ethics, safety guardrails, and operational transparency. Licensed badge for packaging, websites, and marketing — the signal consumers learn to look for.</div>
+      <div class="init-status">
+        <span class="status-pill upcoming"><span class="dot"></span>Founding</span>
+        <span>Launch · Q4 2026</span>
+      </div>
+    </a>
+
+    <a class="init-row" href="#join">
+      <div class="init-num">02</div>
+      <div class="init-tag">Infrastructure</div>
+      <div class="init-title">White-label <em>AI Engine.</em></div>
+      <div class="init-desc">The literal "ingredient inside." A licensed AI infrastructure stack that powers other companies' products — from CRMs to consumer hardware. They build the experience. We provide the intelligence, certified.</div>
+      <div class="init-status">
+        <span class="status-pill q3"><span class="dot"></span>In Build</span>
+        <span>Pilot · Q2 2027</span>
+      </div>
+    </a>
+
+    <a class="init-row" href="#join">
+      <div class="init-num">03</div>
+      <div class="init-tag">Marketplace</div>
+      <div class="init-title">The <em>Registry.</em></div>
+      <div class="init-desc">A curated directory of verified AI-powered products, indexed by industry, use case, and certification tier. The trusted discovery layer for buyers, procurement teams, and curious humans — built atop the AI Inside™ mark.</div>
+      <div class="init-status">
+        <span class="status-pill upcoming"><span class="dot"></span>Founding</span>
+        <span>Open · Q1 2027</span>
+      </div>
+    </a>
+
+    <a class="init-row" href="#join">
+      <div class="init-num">04</div>
+      <div class="init-tag">Advisory</div>
+      <div class="init-title">Integration <em>Studio.</em></div>
+      <div class="init-desc">A consultancy practice for traditional businesses embedding AI into existing operations and products. Retail, manufacturing, legal, healthcare, logistics. Implementation, governance, and the mark — delivered as a single mandate.</div>
+      <div class="init-status">
+        <span class="status-pill q3"><span class="dot"></span>Active</span>
+        <span>Now Booking</span>
+      </div>
+    </a>
+
+    <a class="init-row" href="#join">
+      <div class="init-num">05</div>
+      <div class="init-tag">Hardware</div>
+      <div class="init-title">Embedded <em>Modules.</em></div>
+      <div class="init-desc">Drop-in AI components for hardware and IoT manufacturers — vision, speech, predictive maintenance, anomaly detection. The certified intelligence layer for devices that ship a sticker on the box.</div>
+      <div class="init-status">
+        <span class="status-pill planning"><span class="dot"></span>Planning</span>
+        <span>Target · 2027</span>
+      </div>
+    </a>
+
+    <a class="init-row" href="#join">
+      <div class="init-num">06</div>
+      <div class="init-tag">Media</div>
+      <div class="init-title">The <em>Dispatch.</em></div>
+      <div class="init-desc">A publication, podcast, and community for the people building the intelligent age. Inside the industry — model releases, deployment patterns, the politics of the stack. Audience first, authority always.</div>
+      <div class="init-status">
+        <span class="status-pill upcoming"><span class="dot"></span>Imminent</span>
+        <span>Issue 01 · Soon</span>
+      </div>
+    </a>
+
+    <a class="init-row" href="#join">
+      <div class="init-num">07</div>
+      <div class="init-tag">Audit</div>
+      <div class="init-title">Transparency <em>Reports.</em></div>
+      <div class="init-desc">Independent audit and disclosure services for AI systems. Tell consumers, regulators, and stakeholders precisely what intelligence is operating, on what data, with what behavior. The compliance partner for the AI Act era.</div>
+      <div class="init-status">
+        <span class="status-pill planning"><span class="dot"></span>Planning</span>
+        <span>Target · 2027</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ─────────── PRINCIPLES ─────────── -->
+<section class="principles" id="principles">
+  <div class="principles-inner">
+    <div class="principles-header">
+      <h2>What we <em>stand</em> for.</h2>
+      <div class="section-label light">Principles / 04</div>
+    </div>
+
+    <div class="principles-grid">
+      <div class="principle">
+        <div class="principle-num">001</div>
+        <h3><em>Provenance</em> over hype.</h3>
+        <p>Every certified product can trace its intelligence to a source. Models, data, decisions — accountable by design, not by accident.</p>
+      </div>
+      <div class="principle">
+        <div class="principle-num">002</div>
+        <h3>Trust is <em>infrastructure.</em></h3>
+        <p>The mark is the rail. Companies invest in the badge because consumers reward it. A flywheel built on substance, not signal.</p>
+      </div>
+      <div class="principle">
+        <div class="principle-num">003</div>
+        <h3>Independence, <em>always.</em></h3>
+        <p>We are neither a model lab nor a platform. We answer to the registry and the public — the only way certification holds value.</p>
+      </div>
+      <div class="principle">
+        <div class="principle-num">004</div>
+        <h3>Clarity is <em>kindness.</em></h3>
+        <p>Plain-language disclosure. Visible badges. Public audit trails. The opposite of the black box — by deliberate, ongoing choice.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── WAITLIST ─────────── -->
+<section class="waitlist" id="join">
+  <div class="waitlist-inner">
+    <div class="section-label">Founding Cohort / Open</div>
+    <h2>Be inside <em>from the start.</em></h2>
+    <p>We're assembling a founding cohort of certified partners, investors, and operators. Leave an address — we'll send the first dispatch, and an invitation when the registry opens.</p>
+    <div class="form-row">
+      <input type="email" placeholder="your@address.com" />
+      <button onclick="this.textContent='Received ✓'; this.disabled=true;">Request Access</button>
+    </div>
+    <div class="form-note">No spam. Approx. one dispatch per month.</div>
+  </div>
+</section>
+
+<!-- ─────────── FOOTER ─────────── -->
+<footer>
+  <div>© 2026 AI Inside™ · Registered in Australia</div>
+  <div class="footer-links">
+    <a href="#">Press</a>
+    <a href="#">Careers</a>
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+  </div>
+  <div>AIInside.ai · v0.1</div>
+</footer>
+
+<script>
+  // Subtle scroll reveal for init rows
+  const rows = document.querySelectorAll('.init-row');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.15 });
+  rows.forEach((r, i) => {
+    r.style.opacity = '0';
+    r.style.transform = 'translateY(20px)';
+    r.style.transition = `opacity 0.7s ease ${i*0.08}s, transform 0.7s ease ${i*0.08}s, padding 0.35s ease, background 0.35s ease`;
+    obs.observe(r);
+  });
+</script>
+
+</body>
+</html>
