@@ -1059,10 +1059,55 @@
     <div class="section-label">Founding Cohort / Open</div>
     <h2>Be inside <em>from the start.</em></h2>
     <p>We're assembling a founding cohort of certified partners, investors, and operators. Leave an address — we'll send the first dispatch, and an invitation when the registry opens.</p>
-    <div class="form-row">
-      <input type="email" placeholder="your@address.com" />
-      <button onclick="this.textContent='Received ✓'; this.disabled=true;">Request Access</button>
-    </div>
+    <form class="form-row" id="waitlist-form">
+      <input type="email" name="email" placeholder="your@address.com" required />
+      <!-- Honeypot field — hidden from humans, bots fill it and get rejected -->
+      <input type="text" name="company" id="hp-field" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" />
+      <button type="submit">Request Access</button>
+    </form>
+    <script>
+      (function() {
+        const form = document.getElementById('waitlist-form');
+        const FORM_ID = '1FAIpQLSc6DsguwolExZTAW7Zar8HlzkzELRhkpnNNm3F2lA05wepxQw';
+        const EMAIL_ENTRY = 'entry.1813640291';
+        const SOURCE_ENTRY = 'entry.1214325936';
+
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const button = form.querySelector('button');
+          const emailInput = form.querySelector('input[type="email"]');
+          const honeypot = document.getElementById('hp-field');
+
+          // Bot check — if honeypot was filled, silently fake a success and bail
+          if (honeypot.value !== '') {
+            button.textContent = 'Received ✓';
+            button.disabled = true;
+            emailInput.disabled = true;
+            return;
+          }
+
+          button.textContent = 'Sending...';
+          button.disabled = true;
+
+          const data = new FormData();
+          data.append(EMAIL_ENTRY, emailInput.value);
+          data.append(SOURCE_ENTRY, 'aiinside.ai homepage');
+
+          try {
+            await fetch(
+              'https://docs.google.com/forms/d/e/' + FORM_ID + '/formResponse',
+              { method: 'POST', body: data, mode: 'no-cors' }
+            );
+            button.textContent = 'Received ✓';
+            emailInput.value = '';
+            emailInput.disabled = true;
+          } catch (err) {
+            button.textContent = 'Try again';
+            button.disabled = false;
+          }
+        });
+      })();
+    </script>
     <div class="form-note">No spam. Approx. one dispatch per month.</div>
   </div>
 </section>
